@@ -4,24 +4,9 @@ function requirePage (path) {
 
 export default [
     {
-        path: '/auth/login',
-        name: 'login',
-        component: requirePage('Auth/login'),
-    },
-    {
         path: '/',
         name: 'home',
-        component: requirePage('App/home')
-    },
-    {
-        path: '/client/:id',
-        name: 'client.show',
-        component: requirePage('App/Client/form')
-    },
-    {
-        path: '/client',
-        name: 'client',
-        component: requirePage('App/Client/list'),
+        component: requirePage('home')
     },
     // {
     //     path: '*',

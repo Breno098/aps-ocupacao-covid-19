@@ -1858,7 +1858,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1905,59 +1906,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   el: '#app',
   data: function data() {
     return {
-      drawer: true,
-      items: [{
-        action: 'mdi-home',
-        title: 'Home',
-        active: true,
-        items: [{
-          title: 'Home',
-          route: '/'
-        }]
-      }, {
-        title: 'Cadastros',
-        action: 'mdi-pencil',
-        items: [{
-          title: 'Cliente',
-          route: '/client'
-        }, {
-          title: 'Categoria',
-          route: '/'
-        }]
-      }]
+      states: [],
+      state: null,
+      cities: [],
+      city: null
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)({
-    authenticated: 'auth/check'
-  }),
   mounted: function mounted() {
-    this.verifyAuth();
+    this.loadStates();
   },
   methods: {
-    verifyAuth: function verifyAuth() {
+    loadStates: function loadStates() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -1965,20 +1929,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!window.localStorage.getItem('token')) {
-                  _context.next = 4;
-                  break;
-                }
-
-                _context.next = 3;
-                return _this.$store.dispatch('auth/verify');
-
-              case 3:
-                _this.$router.push({
-                  name: 'home'
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/state').then(function (response) {
+                  _this.states = response.data.states;
                 });
 
-              case 4:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -1986,7 +1941,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    logout: function logout() {
+    loadCities: function loadCities() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -1994,20 +1949,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _this2.$store.dispatch('auth/logout');
-
-              case 2:
-                _this2.$router.push({
-                  name: 'login'
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/city/".concat(_this2.state)).then(function (response) {
+                  _this2.cities = response.data.cities;
                 });
 
-              case 3:
+              case 1:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    loadBed: function loadBed() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/bed/".concat(_this3.city)).then(function (response) {
+                  console.log(response.data);
+                });
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }
@@ -2117,13 +2088,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 axios__WEBPACK_IMPORTED_MODULE_0___default().interceptors.request.use(function (request) {
-  var token = _store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/token"];
-
-  if (token) {
-    request.headers.common.Authorization = "Bearer ".concat(token);
-    request.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-  }
-
   return request;
 });
 window.axios = (axios__WEBPACK_IMPORTED_MODULE_0___default());
@@ -2169,29 +2133,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./resources/js/router/routes.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes */ "./resources/js/router/routes.js");
 
 
 
-
-vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_3__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
+vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
   mode: 'history',
-  routes: _routes__WEBPACK_IMPORTED_MODULE_1__.default
+  routes: _routes__WEBPACK_IMPORTED_MODULE_0__.default
 });
 router.beforeEach(function (to, from, next) {
-  console.log(to.path);
-
-  if (to.name !== 'login' && !_store__WEBPACK_IMPORTED_MODULE_0__.default.getters["auth/check"]) {
-    next({
-      name: 'login'
-    });
-  } else {
-    next();
-  }
+  next();
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -2217,21 +2171,9 @@ function requirePage(path) {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
-  path: '/auth/login',
-  name: 'login',
-  component: requirePage('Auth/login')
-}, {
   path: '/',
   name: 'home',
-  component: requirePage('App/home')
-}, {
-  path: '/client/:id',
-  name: 'client.show',
-  component: requirePage('App/Client/form')
-}, {
-  path: '/client',
-  name: 'client',
-  component: requirePage('App/Client/list')
+  component: requirePage('home')
 } // {
 //     path: '*',
 //     component: requirePage('App/home')
@@ -3862,194 +3804,76 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
-      _vm.authenticated
-        ? _c(
-            "div",
-            [
-              _c(
-                "v-system-bar",
-                { attrs: { app: "", color: "blue", height: "25" } },
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "white--text",
-                      attrs: { text: "", small: "" }
-                    },
-                    [_vm._v(" Ajuda ")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-app-bar",
-                { attrs: { app: "", color: "grey lighten-2", height: "75" } },
-                [
-                  _c("v-app-bar-nav-icon", {
-                    on: {
-                      click: function($event) {
-                        _vm.drawer = !_vm.drawer
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { attrs: { text: "" }, on: { click: _vm.logout } },
-                    [_vm._v(" LOGOUT ")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-navigation-drawer",
-                {
-                  attrs: { fixed: "", app: "", width: "200" },
-                  model: {
-                    value: _vm.drawer,
-                    callback: function($$v) {
-                      _vm.drawer = $$v
-                    },
-                    expression: "drawer"
-                  }
-                },
-                [
-                  _c(
-                    "v-list",
-                    { attrs: { dense: "" } },
-                    _vm._l(_vm.items, function(item) {
-                      return _c(
-                        "v-list-group",
-                        {
-                          key: item.title,
-                          attrs: {
-                            "prepend-icon": item.action,
-                            "no-action": ""
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "activator",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "v-list-item-content",
-                                      [
-                                        _c("v-list-item-title", {
-                                          domProps: {
-                                            textContent: _vm._s(item.title)
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: item.active,
-                            callback: function($$v) {
-                              _vm.$set(item, "active", $$v)
-                            },
-                            expression: "item.active"
-                          }
-                        },
-                        [
-                          _vm._v(" "),
-                          _vm._l(item.items, function(child) {
-                            return _c(
-                              "v-list-item",
-                              { key: child.title },
-                              [
-                                _c(
-                                  "router-link",
-                                  { attrs: { to: child.route } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      [
-                                        _c("v-list-item-title", {
-                                          domProps: {
-                                            textContent: _vm._s(child.title)
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    }),
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
+      _c("v-app-bar", {
+        attrs: { app: "", color: "grey lighten-2", height: "75" }
+      }),
       _vm._v(" "),
-      _c("v-main", [_c("router-view")], 1),
-      _vm._v(" "),
-      _vm.authenticated
-        ? _c(
-            "div",
+      _c(
+        "v-main",
+        [
+          _c(
+            "v-card",
+            { staticClass: "m-2" },
             [
-              _c("v-divider", { staticClass: "mx-1 my-5" }),
+              _c("v-card-title", [
+                _vm._v("\n                  Localização\n              ")
+              ]),
               _vm._v(" "),
               _c(
-                "v-footer",
-                { staticClass: "transparent", attrs: { padless: "" } },
+                "v-card-text",
                 [
                   _c(
                     "v-row",
-                    { attrs: { "no-gutters": "" } },
                     [
                       _c(
-                        "v-btn",
-                        {
-                          staticClass: "text-capitalize",
-                          attrs: { color: "black", text: "", rounded: "" }
-                        },
-                        [_vm._v("Quem somos")]
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6" } },
+                        [
+                          _c("v-autocomplete", {
+                            attrs: {
+                              items: _vm.states,
+                              label: "Estado",
+                              outlined: "",
+                              "item-value": "id",
+                              "item-text": "name"
+                            },
+                            on: { change: _vm.loadCities },
+                            model: {
+                              value: _vm.state,
+                              callback: function($$v) {
+                                _vm.state = $$v
+                              },
+                              expression: "state"
+                            }
+                          })
+                        ],
+                        1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "text-capitalize",
-                          attrs: { color: "black", text: "", rounded: "" }
-                        },
-                        [_vm._v("Ajuda")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "text-capitalize",
-                          attrs: { color: "black", text: "", rounded: "" }
-                        },
-                        [_vm._v("Fale conosco")]
-                      )
+                      _vm.cities
+                        ? _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "6" } },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.cities,
+                                  label: "Cidade",
+                                  outlined: ""
+                                },
+                                on: { change: _vm.loadBed },
+                                model: {
+                                  value: _vm.city,
+                                  callback: function($$v) {
+                                    _vm.city = $$v
+                                  },
+                                  expression: "city"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )
@@ -4059,7 +3883,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )
@@ -66306,25 +66132,9 @@ var index = {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./App/Client/form.vue": [
-		"./resources/js/pages/App/Client/form.vue",
-		"resources_js_pages_App_Client_form_vue"
-	],
-	"./App/Client/list.vue": [
-		"./resources/js/pages/App/Client/list.vue",
-		"resources_js_pages_App_Client_list_vue"
-	],
-	"./App/home.vue": [
-		"./resources/js/pages/App/home.vue",
-		"resources_js_pages_App_home_vue"
-	],
-	"./App/index.vue": [
-		"./resources/js/pages/App/index.vue",
-		"resources_js_pages_App_index_vue"
-	],
-	"./Auth/login.vue": [
-		"./resources/js/pages/Auth/login.vue",
-		"resources_js_pages_Auth_login_vue"
+	"./home.vue": [
+		"./resources/js/pages/home.vue",
+		"resources_js_pages_home_vue"
 	]
 };
 function webpackAsyncContext(req) {
@@ -66482,7 +66292,7 @@ webpackContext.id = "./resources/js/store/modules sync .*\\.js$";
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_pages_App_Client_form_vue":1,"resources_js_pages_App_Client_list_vue":1,"resources_js_pages_App_home_vue":1,"resources_js_pages_App_index_vue":1,"resources_js_pages_Auth_login_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if (chunkId === "resources_js_pages_home_vue") return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
