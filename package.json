@@ -26,6 +26,6 @@
         "@mdi/font": "^5.9.55",
         "chart.js": "^2.9.4",
         "vue-chartjs": "^3.5.1",
-        "vuetify": "^2.5.1",
+        "vuetify": "^2.5.1"
     }
 }

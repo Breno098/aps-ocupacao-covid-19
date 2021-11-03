@@ -207,6 +207,20 @@
                 </v-card-text>
             </v-card>
         </v-main>
+
+        <v-dialog v-model="dialog" width="500">
+            <v-card>
+                <v-card-title> Carregando dados... </v-card-title>
+
+                <v-card-text class="d-flex justify-center align-center p-5">
+                    <v-progress-circular
+                        :size="150"
+                        color="deep-purple accent-4"
+                        indeterminate
+                    ></v-progress-circular>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
   </v-app>
 </template>
 
@@ -222,6 +236,7 @@ export default {
         PieCharts
     },
     data: () => ({
+        dialog: false,
         states: [],
         state: null,
         cities: [],
@@ -274,6 +289,8 @@ export default {
             })
         },
         async loadBed(){
+            this.dialog = true;
+
             axios.get(`api/bed/${this.city}`).then(response => {
                 this.datas = response.data;
 
@@ -305,7 +322,9 @@ export default {
                             ]
                         }
                     ]
-                }
+                };
+
+                this.dialog = false;
             })
         },
         fillData() {
